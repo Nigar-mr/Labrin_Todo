@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block page %}
+
+    <!-- Masthead -->
+    <header class="masthead bg-primary text-white text-center"
+            style="background-image: url('/static/img/photo-1484480974693-6ca0a78fb36b.jpeg') !important; background-repeat: no-repeat; background-size: cover;">
+        <div class="container d-flex align-items-center flex-column">
+
+            <!-- Masthead Avatar Image -->
+            {% if user.is_authenticated %}
+                <img class="masthead-avatar mb-5" style="border-radius: 50%;" src="{{ request.user.get_image }}" alt="">
+            {% else %}
+                <img class="masthead-avatar mb-5" src="/static/img/avataaars.svg" alt="">
+            {% endif %}
+            <!-- Masthead Heading -->
+            <h1 class="masthead-heading text-uppercase mb-0" style="color: #2c3e50;">{{ unique.title }}</h1>
+
+            <!-- Icon Divider -->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line" style="background-color: #2c3e50;"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line" style="background-color: #2c3e50;"></div>
+            </div>
+
+            <!-- Masthead Subheading -->
+            <p class="masthead-subheading font-weight-light mb-0">{{ unique.subtitle|default:"" }}</p>
+
+        </div>
+    </header>
+    {% if user.is_authenticated %}
+        <section class="page-section portfolio" id="portfolio">
+            <div class="container">
+
+                <!-- Portfolio Section Heading -->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Your Todo List</h2>
+
+                <!-- Icon Divider -->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="divider-custom-line"></div>
+                </div>
+
+                <!-- Portfolio Grid Items -->
+                <div class="row">
+
+                    <!-- Portfolio Item 1 -->
+                    {% for list in todo_list %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="portfolio-item mx-auto">
+                                <div class="card" style="width:400px">
+                                    <img class="card-img-top" src="/static/img/pexels-photo-908284.jpeg"
+                                         alt="Card image">
+                                    <div class="card-body">
+                                        <h4 class="card-title" style="margin-bottom: 0px;">{{ list.name }}</h4>
+                                        <small>{{ list.publish_date }}</small>
+                                        <br>
+                                        <small>-{{ list.datetime }}</small>
+                                        <form method="post" action="">
+                                            {% csrf_token %}
+                                            <p class="card-text">
+                                                {% for add in add_list %}
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                        <span class="input-group-text"
+                                                              style="padding-left: 10px;width: 48px;height: 38px;"><img
+                                                                src="/static/img/list.png"
+                                                                style="width: 26px;height: 23px;"></span>
+                                                        </div>
+                                                        {{ add }}
+                                                    </div>
+                                                {% endfor %}
+                                            </p>
+                                        </form>
+                                        <a data-toggle="modal" data-target="#portfolioModal{{ forloop.counter }}"
+                                           href="#"
+                                           class="btn btn-primary">See Profile</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <!-- /.row -->
+
+
+            </div>
+        </section>
+
+    {% endif %}
+    <!-- Portfolio Modal 1 -->
+    {% for list in todo_list %}
+        <div class="portfolio-modal modal fade" id="portfolioModal{{ forloop.counter }}" tabindex="-1" role="dialog"
+             aria-labelledby="portfolioModal1Label" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">
+            <i class="fas fa-times"></i>
+          </span>
+                    </button>
+                    <div class="modal-body text-center">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <!-- Portfolio Modal - Title -->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">{{ list.name }}</h2>
+                                    <!-- Icon Divider -->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                    <!-- Portfolio Modal - Image -->
+                                    {% for foo in list.addlist_set.all %}
+                                        <p>{{ foo.add_list }}</p>
+                                    {% endfor %}
+
+                                    <img class="img-fluid rounded mb-5" src="/static/img/pexels-photo-908284.jpeg"
+                                         alt="">
+                                    <!-- Portfolio Modal - Text -->
+                                    <p class="mb-5">{{ list.more }}</p>
+{#                                    {% for l in list %}#}
+{#                                        <p>{{ l.add_list }}</p>#}
+{#                                    {% endfor %}#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+{% endblock %}
