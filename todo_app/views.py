@@ -91,7 +91,7 @@ class AddView(generic.CreateView):
 #     def get(self, request):
 #         notification.delay
 #         return HttpResponse("ok")
-
+#comment
 
 # def SendEmail(request):
 #     now = datetime.now(timezone.utc)
