@@ -114,13 +114,17 @@ class Unique(models.Model):
 
 
 class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_post', null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     more = models.TextField(null=True, blank=True)
     datetime = models.DateTimeField(null=True, blank=True)
-
     publish_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    shared_user = models.ManyToManyField(User, related_name='shared_list')
 
 
-class AddList(models.Model):
-    list = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
-    add_list = models.CharField(max_length=50, null=True, blank=True)
+class CommentModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=255)
+
+    publish_date = models.DateTimeField(auto_now_add=True)

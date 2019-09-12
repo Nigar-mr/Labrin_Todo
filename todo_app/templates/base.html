@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +18,7 @@
           type="text/css">
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="https://fake.munisisazade.com/v1/5d736a6b27bb003aef29353c">
+    <link rel="stylesheet" href="{% static 'css/datetimepicker.css' %}">
     <link href="/static/css/freelancer.min.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
 
@@ -44,7 +45,6 @@
                        style="color: white; margin-right: 10px; margin-top:2px;"></p>
                     <!-- User account and action buttons -->
                     <div class="pull-right">
-                        <a class="btn-navbar search-opener" id="search" href="#"><i class="ti-search"></i></a>
                         <a class="btn-navbar" href="{% url 'add' %}"><i class="ti-plus"></i></a>
 
                         <div class="dropdown user-account">

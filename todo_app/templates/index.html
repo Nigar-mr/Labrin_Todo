@@ -30,68 +30,60 @@
         </div>
     </header>
     {% if user.is_authenticated %}
-        <section class="page-section portfolio" id="portfolio">
-            <div class="container">
+{#        {% if post.user == request.user %}#}
+            <section class="page-section portfolio" id="portfolio">
+                <div class="container">
 
-                <!-- Portfolio Section Heading -->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Your Todo List</h2>
+                    <!-- Portfolio Section Heading -->
+                    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Your Todo List</h2>
 
-                <!-- Icon Divider -->
-                <div class="divider-custom">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon">
-                        <i class="fas fa-star"></i>
+                    <!-- Icon Divider -->
+                    <div class="divider-custom">
+                        <div class="divider-custom-line"></div>
+                        <div class="divider-custom-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="divider-custom-line"></div>
                     </div>
-                    <div class="divider-custom-line"></div>
-                </div>
 
-                <!-- Portfolio Grid Items -->
-                <div class="row">
+                    <!-- Portfolio Grid Items -->
+                    <div class="row">
 
-                    <!-- Portfolio Item 1 -->
-                    {% for list in todo_list %}
-                        <div class="col-md-6 col-lg-4">
-                            <div class="portfolio-item mx-auto">
-                                <div class="card" style="width:400px">
-                                    <img class="card-img-top" src="/static/img/pexels-photo-908284.jpeg"
-                                         alt="Card image">
-                                    <div class="card-body">
-                                        <h4 class="card-title" style="margin-bottom: 0px;">{{ list.name }}</h4>
-                                        <small>{{ list.publish_date }}</small>
-                                        <br>
-                                        <small>-{{ list.datetime }}</small>
-                                        <form method="post" action="">
-                                            {% csrf_token %}
-                                            <p class="card-text">
-                                                {% for add in add_list %}
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                        <span class="input-group-text"
-                                                              style="padding-left: 10px;width: 48px;height: 38px;"><img
-                                                                src="/static/img/list.png"
-                                                                style="width: 26px;height: 23px;"></span>
-                                                        </div>
-                                                        {{ add }}
-                                                    </div>
-                                                {% endfor %}
-                                            </p>
-                                        </form>
-                                        <a data-toggle="modal" data-target="#portfolioModal{{ forloop.counter }}"
-                                           href="#"
-                                           class="btn btn-primary">See Profile</a>
+                        <!-- Portfolio Item 1 -->
+                        {% for list in todo_list %}
+                            <div class="col-md-6 col-lg-4" class="my_list">
+                                <div class="portfolio-item mx-auto">
+                                    <div class="card" style="width:400px">
+                                        <img class="card-img-top" src="/static/img/pexels-photo-908284.jpeg"
+                                             alt="Card image">
+                                        <div class="card-body">
+                                            <h4 class="card-title examp"
+                                                style="margin-bottom: 0px;">{{ list.name }}</h4>
+                                            <small>{{ list.publish_date }}</small>
+                                            <br>
+                                            <small>-{{ list.datetime }}</small>
+                                            <br>
+                                            <br>
+                                            <a data-toggle="modal" data-target="#portfolioModal{{ forloop.counter }}"
+                                               href="#"
+                                               class="btn btn-primary">See Profile</a>
+                                            <a href="#" class="btn btn-danger finished btn-delete">Finished</a>
+                                            {#                                        <a href="#"><i class="fas fa-share"></i></a>#}
+                                            <button type="button" class="btn btn-primary share_btn" data-toggle="modal"
+                                                    data-target="#sharemodal" data-id="{{ list.pk }}">
+                                                <i class="fas fa-share"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+
+                    </div>
+                    <!-- /.row -->
+
 
                 </div>
-                <!-- /.row -->
-
-
-            </div>
-        </section>
-
+            </section>
     {% endif %}
     <!-- Portfolio Modal 1 -->
     {% for list in todo_list %}
@@ -100,9 +92,9 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">
-            <i class="fas fa-times"></i>
-          </span>
+                      <span aria-hidden="true">
+                        <i class="fas fa-times"></i>
+                      </span>
                     </button>
                     <div class="modal-body text-center">
                         <div class="container">
@@ -119,17 +111,10 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image -->
-                                    {% for foo in list.addlist_set.all %}
-                                        <p>{{ foo.add_list }}</p>
-                                    {% endfor %}
-
                                     <img class="img-fluid rounded mb-5" src="/static/img/pexels-photo-908284.jpeg"
                                          alt="">
                                     <!-- Portfolio Modal - Text -->
                                     <p class="mb-5">{{ list.more }}</p>
-{#                                    {% for l in list %}#}
-{#                                        <p>{{ l.add_list }}</p>#}
-{#                                    {% endfor %}#}
                                 </div>
                             </div>
                         </div>
@@ -138,6 +123,74 @@
             </div>
         </div>
     {% endfor %}
+    <!-- The Modal -->
+    <div class="modal" id="sharemodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                </div>
 
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ share_form }}
+                        <input type="hidden" id="todo_input" name="todo" value="{{ list.pk }}">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {#    {% for delete in content_data %}#}
+    {#        <div id="delete_modal{{ delete.id }}" class="delete_modal fade" role="dialog">#}
+    {#            <div class="modal-dialog">#}
+    {##}
+    {#                <!-- Modal content-->#}
+    {#                <div class="modal-content">#}
+    {#                    <div class="modal-header">#}
+    {#                        <h4 class="modal-title">{{ delete.caption }}</h4>#}
+    {#                        <button type="button" class="close" data-dismiss="modal">&times;</button>#}
+    {##}
+    {#                    </div>#}
+    {#                    <div class="modal-body">#}
+    {#                        <p>Bu xəbəri silmək istədiyinizə əminsiniz?</p>#}
+    {#                        <form class="delete_form" method="post" action="{% url 'delete' delete.id %}">#}
+    {#                            {% csrf_token %}#}
+    {#                            <button type="submit" class="btn btn-success">Sil</button>#}
+    {#                        </form>#}
+    {#                    </div>#}
+    {#                    <div class="modal-footer">#}
+    {##}
+    {#                        <button type="button" class="btn btn-danger" data-dismiss="modal">Bağla</button>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    {% endfor %}#}
+{% endblock %}
+{% block js %}
+    <script type="application/javascript">
+        $(document).ready(function (e) {
+            $(".btn-delete").click(function () {
+                $(".delete_form").attr("action", $(this).attr("data-url"));
+            });
+            $('.share_btn').on('click', function (e) {
+                todo_id = $(this).data('id');
+                $('#todo_input').val(todo_id);
+            })
+        });
+
+    </script>
 {% endblock %}

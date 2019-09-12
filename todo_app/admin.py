@@ -3,7 +3,7 @@ from todo_app.forms import MyUserChangeForm, MyUserCreationForm
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
-from todo_app.models import Unique, Post, AddList
+from todo_app.models import Unique, Post
 
 User = get_user_model()
 @admin.register(User)
@@ -36,4 +36,3 @@ class MyUserAdmin(UserAdmin):
 
 admin.site.register(Unique)
 admin.site.register(Post)
-admin.site.register(AddList)

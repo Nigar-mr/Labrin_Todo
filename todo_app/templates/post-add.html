@@ -5,14 +5,12 @@
     <br>
     <br>
     <br>
-
     <main>
         <section class="no-border-bottom" style="width: 1624px;">
             <div class="container">
                 <header class="section-header">
                     <h2>Add List</h2>
                 </header>
-
                 <form action="" class="form-horizontal1" method="POST"
                       enctype="multipart/form-data">
                     {% csrf_token %}
@@ -28,12 +26,6 @@
                                     {% for form in add_post %}
                                         {% if form.html_name == 'datetime' %}
                                             <input type='text' class="form-control" id='datetimepicker4'/>
-{#                                            <script type="text/javascript">#}
-{#                                            alert('ok')#}
-{#                                                $(function () {#}
-{#                                                    $('#datetimepicker4').datetimepicker();#}
-{#                                                });#}
-{#                                            </script>#}
                                         {% else %}
                                             <div class="form-group">
                                                 {{ form }}
@@ -41,6 +33,7 @@
                                         {% endif %}
                                     {% endfor %}
                                 </div>
+                            <br>
                                 <button class="btn btn-primary btn-block" type="submit">Submit shot</button>
                             </div>
                         </div>

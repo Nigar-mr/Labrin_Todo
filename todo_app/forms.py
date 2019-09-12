@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, AuthenticationForm
 from django.contrib.auth import authenticate
-from todo_app.models import MyUser, Post, AddList
+from todo_app.models import MyUser, Post, CommentModel
 
 User = MyUser
 
@@ -159,15 +159,26 @@ class PostForm(forms.ModelForm):
             })
         }
 
+class ShareForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={
+            "class": "input100",
+            "type": "text",
+            "name": "username",
+            "placeholder": "Username"
+        }
+    ))
 
-class AddListForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = AddList
-        fields = ['add_list']
+        model = CommentModel
+        fields = ['comment']
 
         widgets = {
-            'add_list': forms.TextInput(attrs={
-                'type': 'text',
-                'placeholder': 'Add to yor list'
+            'comment': forms.TextInput(attrs={
+                # 'type': "text",
+                'class': "form-control",
+                'placeholder': "Leave a comment...",
+                'id': "comment"
             })
         }

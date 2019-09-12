@@ -31,7 +31,9 @@ User = get_user_model()
 def send_mail_to_user(*args, **kwargs):
     obj = kwargs.get("instance")
     now = datetime.now(timezone.utc)
+    created = kwargs.get("created")
     post = Post.objects.all()
-    date = post.datetime - now - timedelta(seconds=600)
-    link = f"http://localhost:8000/"
-    warning_email.apply_async(args=(obj.user.email, link), eta=now + date)
+    if created:
+        date = post.datetime - now - timedelta(seconds=600)
+        link = f"http://localhost:8000/"
+        warning_email.apply_async(args=(obj.user.email, link), eta=now + date)
