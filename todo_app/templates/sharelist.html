@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block page %}
+    <section class="page-section portfolio" id="portfolio">
+        <div class="container">
+
+            <!-- Portfolio Section Heading -->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Your Todo List</h2>
+
+            <!-- Icon Divider -->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line"></div>
+            </div>
+
+            <!-- Portfolio Grid Items -->
+            <div class="row">
+
+                <!-- Portfolio Item 1 -->
+                {% for list in todo_share_list %}
+                    <div class="col-md-6 col-lg-4" class="my_list">
+                        <div class="portfolio-item mx-auto">
+                            <div class="card" style="width:400px">
+                                <img class="card-img-top" src="/static/img/pexels-photo-908284.jpeg"
+                                     alt="Card image">
+                                <div class="card-body">
+                                    <h4 class="card-title examp"
+                                        style="margin-bottom: 0px;">{{ list.name }}</h4>
+                                    <small>{{ list.publish_date }}</small>
+                                    <br>
+                                    <small>-{{ list.datetime }}</small>
+                                    <br>
+                                    <br>
+                                    <a data-toggle="modal" data-target="#portfolioModal{{ forloop.counter }}"
+                                       href="#"
+                                       class="btn btn-primary">See Profile</a>
+                                    <a href="#" class="btn btn-danger finished btn-delete">Finished</a>
+                                    {#                                        <a href="#"><i class="fas fa-share"></i></a>#}
+                                    <button type="button" class="btn btn-primary share_btn" data-toggle="modal"
+                                            data-target="#sharemodal" data-id="{{ list.pk }}">
+                                        <i class="fas fa-share"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- /.row -->
+
+
+        </div>
+    </section>
+
+{% endblock %}

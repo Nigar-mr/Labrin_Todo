@@ -41,11 +41,9 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
-                    <p class="fa fa-plus" href="{% url 'add' %}"
-                       style="color: white; margin-right: 10px; margin-top:2px;"></p>
                     <!-- User account and action buttons -->
                     <div class="pull-right">
-                        <a class="btn-navbar" href="{% url 'add' %}"><i class="ti-plus"></i></a>
+                        {#                        <a class="btn-navbar" href="{% url 'add' %}"><i class="ti-plus"></i></a>#}
 
                         <div class="dropdown user-account">
                             <p class="dropdown-toggle" href="#" data-toggle="dropdown" style="color:white;">
@@ -53,7 +51,8 @@
                             </p>
 
                             <ul class="dropdown-menu dropdown-menu-right">
-
+                                <li class="list-group-item"><a href="{% url 'add' %}">Add Todo</a></li>
+                                <li class="list-group-item"><a href="{% url 'shared-list' %}">Messages</a></li>
                                 <li class="list-group-item"><a href="#">Profile</a></li>
                                 <li class="list-group-item"><a href="#">Settings</a></li>
                                 <li class="list-group-item"><a href="{% url 'logout' %}">Logout</a></li>

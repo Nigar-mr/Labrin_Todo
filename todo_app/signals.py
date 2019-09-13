@@ -27,13 +27,12 @@ User = get_user_model()
 
 
 
-@receiver(post_save, sender=Verification, dispatch_uid='send_mail_to_user')
+@receiver(post_save, sender=Post, dispatch_uid='send_mail_to_user')
 def send_mail_to_user(*args, **kwargs):
-    obj = kwargs.get("instance")
+    post = kwargs.get("instance")
     now = datetime.now(timezone.utc)
     created = kwargs.get("created")
-    post = Post.objects.all()
     if created:
         date = post.datetime - now - timedelta(seconds=600)
         link = f"http://localhost:8000/"
-        warning_email.apply_async(args=(obj.user.email, link), eta=now + date)
+        warning_email.apply_async(args=(post.user.email, link), eta=now + date)

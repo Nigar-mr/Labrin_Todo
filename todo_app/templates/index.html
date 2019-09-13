@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block page %}
 
     <!-- Masthead -->
@@ -30,60 +31,80 @@
         </div>
     </header>
     {% if user.is_authenticated %}
-{#        {% if post.user == request.user %}#}
-            <section class="page-section portfolio" id="portfolio">
-                <div class="container">
+        {#        {% if post.user == request.user %}#}
+        <section class="page-section portfolio" id="portfolio">
+            <div class="container">
 
-                    <!-- Portfolio Section Heading -->
-                    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Your Todo List</h2>
+                <!-- Portfolio Section Heading -->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Your Todo List</h2>
 
-                    <!-- Icon Divider -->
-                    <div class="divider-custom">
-                        <div class="divider-custom-line"></div>
-                        <div class="divider-custom-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="divider-custom-line"></div>
+                <!-- Icon Divider -->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon">
+                        <i class="fas fa-star"></i>
                     </div>
+                    <div class="divider-custom-line"></div>
+                </div>
 
-                    <!-- Portfolio Grid Items -->
-                    <div class="row">
+                <!-- Portfolio Grid Items -->
+                <div class="row">
 
-                        <!-- Portfolio Item 1 -->
-                        {% for list in todo_list %}
-                            <div class="col-md-6 col-lg-4" class="my_list">
-                                <div class="portfolio-item mx-auto">
-                                    <div class="card" style="width:400px">
-                                        <img class="card-img-top" src="/static/img/pexels-photo-908284.jpeg"
-                                             alt="Card image">
-                                        <div class="card-body">
-                                            <h4 class="card-title examp"
-                                                style="margin-bottom: 0px;">{{ list.name }}</h4>
-                                            <small>{{ list.publish_date }}</small>
-                                            <br>
-                                            <small>-{{ list.datetime }}</small>
-                                            <br>
-                                            <br>
-                                            <a data-toggle="modal" data-target="#portfolioModal{{ forloop.counter }}"
-                                               href="#"
-                                               class="btn btn-primary">See Profile</a>
-                                            <a href="#" class="btn btn-danger finished btn-delete">Finished</a>
-                                            {#                                        <a href="#"><i class="fas fa-share"></i></a>#}
-                                            <button type="button" class="btn btn-primary share_btn" data-toggle="modal"
-                                                    data-target="#sharemodal" data-id="{{ list.pk }}">
-                                                <i class="fas fa-share"></i></button>
-                                        </div>
+                    <!-- Portfolio Item 1 -->
+                    {% for list in todo_list %}
+                        <div class="col-md-6 col-lg-4" class="my_list">
+                            <div class="portfolio-item mx-auto">
+                                <div class="card" style="width:400px">
+                                    <img class="card-img-top" src="/static/img/pexels-photo-908284.jpeg"
+                                         alt="Card image">
+                                    <div class="card-body">
+                                        <h4 class="card-title examp"
+                                            style="margin-bottom: 0px;">{{ list.name }}</h4>
+                                        <small>{{ list.publish_date }}</small>
+                                        <br>
+                                        <small>-{{ list.datetime }}</small>
+                                        <br>
+                                        <br>
+                                        <a data-toggle="modal" data-target="#portfolioModal{{ forloop.counter }}"
+                                           href="#"
+                                           class="btn btn-primary">See Profile</a>
+                                        <a href="#" class="btn btn-danger finished btn-delete">Finished</a>
+                                        {#                                        <a href="#"><i class="fas fa-share"></i></a>#}
+                                        <button type="button" class="btn btn-primary share_btn" data-toggle="modal"
+                                                data-target="#sharemodal" data-id="{{ list.pk }}">
+                                            <i class="fas fa-share"></i></button>
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
-
-                    </div>
-                    <!-- /.row -->
-
-
+                        </div>
+                    {% endfor %}
                 </div>
-            </section>
+                <!-- /.row -->
+
+
+            </div>
+        </section>
+    {% endif %}
+    {% if todo_list.has_other_pages %}
+        <ul class="pagination">
+            {% if todo_list.has_previous %}
+                <li><a href="?page={{ todo_list.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in todo_list.paginator.page_range %}
+                {% if todo_list.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if todo_list.has_next %}
+                <li><a href="?page={{ todo_list.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
     {% endif %}
     <!-- Portfolio Modal 1 -->
     {% for list in todo_list %}
@@ -115,6 +136,24 @@
                                          alt="">
                                     <!-- Portfolio Modal - Text -->
                                     <p class="mb-5">{{ list.more }}</p>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {% for comment in comment_form %}
+                                            {{ comment }}
+                                        {% endfor %}
+                                    </form>
+                                    <ul class="comments">
+                                        <li>
+                                            {% for cm in comment_model %}
+                                                <img src="{{ cm.user.get_image }}" alt="">
+                                                <h6>
+                                                    <time datetime="2016-02-04 22:30">{{ cm.publish_date|naturaltime }}</time>
+                                                </h6>
+                                                <p>{{ cm.comment }}</p>
+                                            {% endfor %}
+                                        </li>
+
+                                    </ul>
                                 </div>
                             </div>
                         </div>

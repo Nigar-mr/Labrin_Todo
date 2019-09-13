@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'celery',
     'django_celery_results',
     'django_celery_beat',
@@ -49,7 +50,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "muradlinigar@gmail.com"
-EMAIL_HOST_PASSWORD ="twmgumxdnqctiyqw"
+EMAIL_HOST_PASSWORD = "twmgumxdnqctiyqw"
 
 CELERY_RESULT_BACKEND = 'django-db'
 

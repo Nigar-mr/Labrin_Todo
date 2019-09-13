@@ -25,7 +25,7 @@
                                 <div class="card-block">
                                     {% for form in add_post %}
                                         {% if form.html_name == 'datetime' %}
-                                            <input type='text' class="form-control" id='datetimepicker4'/>
+                                            <input type='text' name="datetime" class="form-control" id='datetimepicker4'/>
                                         {% else %}
                                             <div class="form-group">
                                                 {{ form }}
@@ -48,9 +48,7 @@
     <script>
         $(function () {
             {#alert('ok')#}
-            $("#datetimepicker4").datetimepicker({
-                format: 'DD/MM/YYYY',
-            });
+            $("#datetimepicker4").datetimepicker();
         });
     </script>
 {% endblock %}

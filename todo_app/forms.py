@@ -144,6 +144,7 @@ class PostForm(forms.ModelForm):
         'type': 'text',
         'placeholder': 'More'
     }))
+    datetime = forms.DateTimeField(input_formats=["%m/%d/%Y %H:%M %p"])
 
     class Meta:
         model = Post
