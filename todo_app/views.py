@@ -39,6 +39,10 @@ class ListView(generic.CreateView, generic.ListView):
         user = self.request.POST.get('username', False)
         current_todo_id = self.request.POST.get('todo', False)
         print('----------------------',current_todo_id)
+        comment = request.POST.get("comment")
+        post_id = request.POST.get("post")
+        print('===========',post_id)
+        print('11111111111',comment)
         if user and current_todo_id:
             shared_user = User.objects.get(username=user)
             shared_todo = Post.objects.get(pk=current_todo_id)
@@ -47,7 +51,8 @@ class ListView(generic.CreateView, generic.ListView):
                 return redirect(reverse_lazy('list'))
             # return redirect(reverse_lazy('list'))
         else:
-            post = Post.objects.all()
+            # post = Post.objects.filter(pk=current_todo_id).last()
+            post = Post.objects.get(id=6)
             form = CommentForm(request.POST)
             if form.is_valid():
                 comment = form.save(commit=False)
@@ -82,6 +87,8 @@ class ListView(generic.CreateView, generic.ListView):
         context['todo_list'] = todo_list
         context['share_form'] = ShareForm()
         context['comment_form'] = CommentForm()
+
+
         context['comment_model'] = CommentModel.objects.all()
         return context
 

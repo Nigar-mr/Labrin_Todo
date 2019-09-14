@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'channels',
     'celery',
     'django_celery_results',
     'django_celery_beat',
@@ -82,7 +83,10 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'todo.wsgi.application'
+ASGI_APPLICATION = 'todo.routing.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

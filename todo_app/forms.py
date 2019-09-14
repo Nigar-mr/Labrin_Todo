@@ -180,6 +180,7 @@ class CommentForm(forms.ModelForm):
                 # 'type': "text",
                 'class': "form-control",
                 'placeholder': "Leave a comment...",
-                'id': "comment"
+                'id': "comment",
+                'name': 'room-name-input',
             })
         }
