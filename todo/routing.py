@@ -1,19 +1,15 @@
-# mysite/routing.py
-from channels.routing import ProtocolTypeRouter
+from channels.security.websocket import AllowedHostsOriginValidator
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 import todo_app.routing
 
 application = ProtocolTypeRouter({
-    # (http->django views is added by default)
-})
-
-
-application = ProtocolTypeRouter({
-    # (http->django views is added by default)
-    'websocket': AuthMiddlewareStack(
-        URLRouter(
-            todo_app.routing.websocket_urlpatterns
+    # Empty for now (http->django views is added by default)
+    'websocket': AllowedHostsOriginValidator(
+        AuthMiddlewareStack(
+            URLRouter(
+                todo_app.routing.websocket_urlpatterns
+            )
         )
     ),
 })

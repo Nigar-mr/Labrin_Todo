@@ -59,19 +59,10 @@ class ListView(generic.CreateView, generic.ListView):
                 comment.user = request.user
                 comment.post = post
                 comment.save()
-
-
-
             return redirect('list')
+
+
     def form_valid(self, form):
-
-        # # form.save()
-        # # return super().form_valid(form)
-        # form = form.save(commit=False)
-        # form.user = self.request.user
-        #
-        # return super().form_valid(form)
-
         instance = form.save(commit=False)
         instance.user = self.request.user
         instance.save()
@@ -88,8 +79,7 @@ class ListView(generic.CreateView, generic.ListView):
         context['share_form'] = ShareForm()
         context['comment_form'] = CommentForm()
 
-
-        context['comment_model'] = CommentModel.objects.all()
+        # context['comment_model'] = CommentModel.objects.all()
         return context
 
     @method_decorator(login_required(login_url="/login"))

@@ -178,9 +178,8 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'comment': forms.TextInput(attrs={
                 # 'type': "text",
-                'class': "form-control",
+                'class': "form-control comment",
                 'placeholder': "Leave a comment...",
-                'id': "comment",
-                'name': 'room-name-input',
+                'name': 'comment',
             })
         }
